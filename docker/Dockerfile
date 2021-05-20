@@ -1,10 +1,14 @@
 FROM golang:alpine as gobuild
 
+ARG ARCH_VALUE
+
+ENV DOCKER_ARCH=$ARCH_VALUE
+
 RUN apk update && \
     apk add ca-certificates gcc git make musl-dev && \
-    git clone https://github.com/mattermost/focalboard && \
+    git clone https://github.com/davideshay/focalboard && \
     cd focalboard && \
-    make server-linux
+    make server-docker
 
 FROM node:alpine as nodebuild
 

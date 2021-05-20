@@ -1,4 +1,4 @@
-.PHONY: prebuild clean cleanall ci server server-mac server-linux server-win server-linux-package generate watch-server webapp mac-app win-app-wpf linux-app
+.PHONY: prebuild clean cleanall ci server server-mac server-linux server-docker server-win server-linux-package generate watch-server webapp mac-app win-app-wpf linux-app
 
 PACKAGE_FOLDER = focalboard
 
@@ -68,6 +68,11 @@ server-linux:
 	mkdir -p bin/linux
 	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=linux")
 	cd server; env GOOS=linux GOARCH=amd64 go build -ldflags '$(LDFLAGS)' -o ../bin/linux/focalboard-server ./main
+
+server-docker:
+	mkdir -p bin/linux
+	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=linux")
+	cd server; env GOOS=linux GOARCH=${DOCKER_ARCH} go build -ldflags '$(LDFLAGS)' -o ../bin/linux/focalboard-server ./main
 
 server-win:
 	$(eval LDFLAGS += -X "github.com/mattermost/focalboard/server/model.Edition=win")
